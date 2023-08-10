@@ -6,7 +6,7 @@
   "author": "Faidil <faidilfamozzy@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "NODE_ENV=production node dist/index.js",
     "start:dev": "dotenv -e .env tsx watch src/main.ts",
     "prepare": "husky install",
     "build": "scripts/build.mjs",
