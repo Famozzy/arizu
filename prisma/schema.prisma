@@ -1,0 +1,53 @@
+datasource db {
+  provider = "mongodb"
+  url = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// discord guild model
+model guilds {
+  id             String          @id @map("_id")
+  welcomeMessage WelcomeMessage?
+  DMWelcomeMessage DMWelcomeMessage?
+  leaveMessage   LeaveMessage?
+  autoRoles      AutoRoles?
+}
+
+// discord guild settings
+type WelcomeMessage {
+  enable       Boolean      @default(false)
+  channelId    String
+  message      String
+  discordEmbed DiscordEmbed
+}
+
+type DMWelcomeMessage {
+  enable  Boolean @default(false)
+  message String
+}
+
+type LeaveMessage {
+  enable    Boolean @default(false)
+  channelId String
+  message   String
+}
+
+type AutoRoles {
+  enable Boolean  @default(false)
+  roles  String[]
+}
+
+
+// discord embed
+type DiscordEmbed {
+  title       String
+  description String
+  color       String
+  footer      String
+  thumbnail   String
+  image       String
+  author      String
+}
