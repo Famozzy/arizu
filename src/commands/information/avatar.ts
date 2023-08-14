@@ -4,9 +4,11 @@ import { getUserAvatar, createLinkButton } from "@/utils"
 import { createCommand } from "@/libs"
 
 const handler: CommandHandler = ({ interaction, args }) => {
-  const user = args.data[0]?.user ?? interaction.user
+  const user = args.getUser("user") ?? interaction.user
+  const serverOption = args.getBoolean("server")
 
-  const userAvatarURL = getUserAvatar(user)
+  const member = interaction.guild?.members.cache.get(user.id)
+  const userAvatarURL = serverOption && member ? getUserAvatar(member) : getUserAvatar(user)
   const button = createLinkButton({ url: userAvatarURL, label: "Download" })
   const row = new ActionRowBuilder<ButtonBuilder>({ components: [button] })
 
@@ -29,7 +31,11 @@ export default createCommand({
         name: "user",
         description: "user to get avatar of",
         type: ApplicationCommandOptionType.User,
-        required: false,
+      },
+      {
+        name: "server",
+        description: "set to true to get the user's server avatar",
+        type: ApplicationCommandOptionType.Boolean,
       },
     ],
   },
